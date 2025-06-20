@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "grpc-course-protobuf/pb/chat";
+
+service ChatService {
+  rpc SendMessage (stream ChatMessage) returns (ChatResponse); //Client streaming -> Client bisa mengirim banyak request sebelum mendapatkan response dari Server
+  rpc ReceiveMessage (ReceiveMessageRequest) returns (stream ChatMessage);//Server streaming -> Server bisa mengirim banyak response sebelum mendapatkan request dari Client
+  rpc Chat (stream ChatMessage) returns (stream ChatMessage);//Bidirectional streaming -> Client dan Server bisa mengirim dan menerima banyak request dan response
+}
+
+message ChatMessage {
+  int64 user_id = 1;
+  string content = 2;
+}
+
+message ChatResponse {
+  string message = 1;
+}
+
+message ReceiveMessageRequest {
+  int64 user_id = 1;
+}
+
+// Umumnya menggunakan Unary,
+//Client streaming, Server streaming, dan Bidirectional streaming hanya digunaan seperti Chat, trading yang membutuhkan realtime data

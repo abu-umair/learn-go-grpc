@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package v1.order;
+
+service OrderService {
+  rpc GetOrderHistory (OrderRequest) returns (stream OrderResponse);
+}
+
+message OrderRequest {
+  int32 user_id = 1;
+}
+
+message OrderResponse {
+  int32 order_id = 1;
+  string product = 2;
+}
+
+// stream OrderResponse → Server mengirim banyak response dalam satu request.

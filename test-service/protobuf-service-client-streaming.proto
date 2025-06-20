@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package v1.chat;
+
+service ChatService {
+  rpc SendMessage (stream ChatMessage) returns (ChatStatus);
+}
+
+message ChatMessage {
+  string message = 1;
+}
+
+message ChatStatus {
+  bool success = 1;
+}
+
+// stream ChatMessage → Client bisa mengirim banyak request sebelum mendapatkan response dari Server.

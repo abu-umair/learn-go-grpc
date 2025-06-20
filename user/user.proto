@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "grpc-course-protobuf/pb/user";
+
+service UserService {
+  rpc CreateUser (User) returns (CreateResponse );//Unary
+}
+
+message Address { //dipisah agar rapi
+  int64 id = 1;
+  string full_address = 2;
+  string province = 3;
+  string city = 4;
+}
+
+message User {
+  // This is reserved for because 'full_name' is not being used again
+  reserved 2; //booking penomoran yang gak kita pake (menghapus full_name)
+  int64 id = 1;
+  // string full_name = 2;
+  int64 age = 3;
+  double balance = 4;
+  bool is_active = 5;
+  Address address = 6;
+  repeated string educations = 7; //['SMA', 'D2', 'D3'], ['S1', 'S2', 'S3']
+  string spouse_name = 8;
+}
+
+message CreateResponse {
+  string message = 1;
+}
