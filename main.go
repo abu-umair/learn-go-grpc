@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-type UserService struct {
+type userService struct {
 	user.UnimplementedUserServiceServer //mengiinitialkan semua API USER (mungkin seperti resource di route laravel)
 }
 
@@ -21,7 +21,7 @@ func main() {
 
 	serv := grpc.NewServer()
 
-	user.RegisterUserServiceServer(serv, &UserService{})
+	user.RegisterUserServiceServer(serv, &userService{})
 
 	if err := serv.Serve(lis); err != nil {
 		// log.Fatal(v...: "Error running server ", err)
