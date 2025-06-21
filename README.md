@@ -10,11 +10,3 @@ go run main.go
 ```
 
 # Go gRPC Client
-
-Perintah:
-
-```bash
-go mod init grpc-course-protobuf
-go get google.golang.org/protobuf
-go get google.golang.org/grpc
-go run main.go
