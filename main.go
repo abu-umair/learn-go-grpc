@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"grpc-course-protobuf/pb/user"
 	"log"
 	"net"
@@ -10,6 +11,13 @@ import (
 
 type userService struct {
 	user.UnimplementedUserServiceServer //mengiinitialkan semua API USER (mungkin seperti resource di route laravel)
+}
+
+func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {
+	log.Println("CreateUser is running")
+	return &user.CreateResponse{
+		Message: "Success Create User",
+	}, nil
 }
 
 func main() {
