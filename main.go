@@ -1,11 +1,16 @@
 package main
 
 import (
+	"grpc-course-protobuf/pb/user"
 	"log"
 	"net"
 
 	"google.golang.org/grpc"
 )
+
+type UserService struct {
+	user.UnimplementedUserServiceServer //mengiinitialkan semua API USER (mungkin seperti resource di route laravel)
+}
 
 func main() {
 	// lis, err := net.Listen(network: "tcp", address: ":8080") //ditutorial seperti ini
@@ -15,6 +20,8 @@ func main() {
 	}
 
 	serv := grpc.NewServer()
+
+	user.RegisterUserServiceServer(serv, &UserService{})
 
 	if err := serv.Serve(lis); err != nil {
 		// log.Fatal(v...: "Error running server ", err)
