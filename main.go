@@ -37,6 +37,7 @@ func (cs *chatService) SendMessage(stream grpc.ClientStreamingServer[chat.ChatMe
 		if err != nil {
 			if errors.Is(err, io.EOF) { //!jika pesan sudah selesai (menerima komunikasi mengakhiri dari client)
 				break //?io.EOF: ada di dokumentasi
+				//!ketika mode prod, lebih baik menambahkan time out beberapa detik (misal HP nya ngehang, jadi tidak ada komunikasi) 
 			}
 			return status.Errorf(codes.Unknown, "Error receiving message %v", err)
 		}
