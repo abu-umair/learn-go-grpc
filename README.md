@@ -17,3 +17,12 @@ kemudian jalankan client di terminal baru:
 ```bash
 go run grpcclient/main.go
 ```
+
+# Client-Streaming
+```bash
+go run main.go
+```
+kemudian jalankan client di terminal baru:
+```bash
+go run grpcclient/main.go
+```
