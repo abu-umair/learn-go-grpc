@@ -13,3 +13,7 @@ go run main.go
 ```bash
 go run main.go
 ```
+kemudian jalankan client di terminal baru:
+```bash
+go run grpcclient/main.go
+```
