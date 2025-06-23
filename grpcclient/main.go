@@ -4,6 +4,7 @@ import (
 	"context"
 	"grpc-course-protobuf/pb/chat"
 	"log"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -33,6 +34,16 @@ func main() {
 	err = stream.Send(&chat.ChatMessage{ //!mengirim pesan 2
 		UserId:  123, //!kita bisa mengirim data chat
 		Content: "Hello again, pesan kedua",
+	})
+	if err != nil {
+		log.Fatal("Failed to send via stream", err)
+	}
+
+	time.Sleep(5 * time.Second) //!membuat delay 5 detik
+
+	err = stream.Send(&chat.ChatMessage{ //!mengirim pesan 3
+		UserId:  123, //!kita bisa mengirim data chat
+		Content: "Hello again, pesan ketiga",
 	})
 	if err != nil {
 		log.Fatal("Failed to send via stream", err)
