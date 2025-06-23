@@ -10,3 +10,6 @@ go run main.go
 ```
 
 # Go gRPC Client
+```bash
+go run main.go
+```
