@@ -37,7 +37,7 @@ func (cs *chatService) SendMessage(stream grpc.ClientStreamingServer[chat.ChatMe
 		if err != nil {
 			if errors.Is(err, io.EOF) { //!jika pesan sudah selesai (menerima komunikasi mengakhiri dari client)
 				break //?io.EOF: ada di dokumentasi
-				//!ketika mode prod, lebih baik menambahkan time out beberapa detik (misal HP nya ngehang, jadi tidak ada komunikasi) 
+				//!ketika mode prod, lebih baik menambahkan time out beberapa detik (misal HP nya ngehang, jadi tidak ada komunikasi)
 			}
 			return status.Errorf(codes.Unknown, "Error receiving message %v", err)
 		}
@@ -49,9 +49,30 @@ func (cs *chatService) SendMessage(stream grpc.ClientStreamingServer[chat.ChatMe
 	})
 }
 
-// func (UnimplementedChatServiceServer) ReceiveMessage(*ReceiveMessageRequest, grpc.ServerStreamingServer[ChatMessage]) error { //?mengambil template di chat.grpc.pb.go
-// 	return status.Errorf(codes.Unimplemented, "method ReceiveMessage not implemented")
-// }
+// !method utk server streaming (server mengirim banyak data dalam satu kali koneksi).
+// ? terdapat 2 objek: req dan stream
+func (cs *chatService) ReceiveMessage(req *chat.ReceiveMessageRequest, stream grpc.ServerStreamingServer[chat.ChatMessage]) error { //?mengambil template di chat.grpc.pb.go
+
+	log.Printf("Got connection request from %d\n", req.UserId) //?UserId: id user yang mengirim request (dpt dilihat di chat.proto)
+
+	err := stream.Send(&chat.ChatMessage{ //?Send: untuk mengirim data ke client, kemudian mengakses objek stream
+		UserId:  123,
+		Content: "Hi, from server 1", //?message ke 1
+	})
+	if err != nil {
+		return status.Errorf(codes.Unknown, "error sending message to client %v", err)
+	}
+
+	err = stream.Send(&chat.ChatMessage{
+		UserId:  123,
+		Content: "Hi, from server 2", //?message ke 2
+	})
+	if err != nil {
+		return status.Errorf(codes.Unknown, "error sending message to client %v", err)
+	}
+	return nil
+}
+
 // func (UnimplementedChatServiceServer) Chat(grpc.BidiStreamingServer[ChatMessage, ChatMessage]) error { //?mengambil template di chat.grpc.pb.go
 // 	return status.Errorf(codes.Unimplemented, "method Chat not implemented")
 // }

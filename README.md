@@ -26,3 +26,12 @@ kemudian jalankan client di terminal baru:
 ```bash
 go run grpcclient/main.go
 ```
+
+# Server-streaming RPC
+```bash
+go run main.go
+```
+kemudian jalankan client di terminal baru:
+```bash
+go run grpcclient/main.go
+```

@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 	"grpc-course-protobuf/pb/chat"
+	"io"
 	"log"
-	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -18,41 +19,24 @@ func main() {
 
 	chatClient := chat.NewChatServiceClient(clientConn)
 
-	stream, err := chatClient.SendMessage(context.Background())
+	stream, err := chatClient.ReceiveMessage(context.Background(), &chat.ReceiveMessageRequest{
+		UserId: 30,
+	})
 	if err != nil {
 		log.Fatal("Failed to send message", err)
 	}
 
-	err = stream.Send(&chat.ChatMessage{ //!mengirim pesan 1
-		UserId:  123, //!kita bisa mengirim data chat
-		Content: "Hello from client, pesan pertama",
-	})
-	if err != nil {
-		log.Fatal("Failed to send via stream", err)
-	}
+	for { //!perulangan untuk menerima banyaknya pesan dari server
+		msg, err := stream.Recv() //? menerima data" yang dikirim dari server
 
-	err = stream.Send(&chat.ChatMessage{ //!mengirim pesan 2
-		UserId:  123, //!kita bisa mengirim data chat
-		Content: "Hello again, pesan kedua",
-	})
-	if err != nil {
-		log.Fatal("Failed to send via stream", err)
-	}
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				break
+			}
+			log.Fatal("Failed to receive message ", err)
+		}
 
-	time.Sleep(5 * time.Second) //!membuat delay 5 detik
-
-	err = stream.Send(&chat.ChatMessage{ //!mengirim pesan 3
-		UserId:  123, //!kita bisa mengirim data chat
-		Content: "Hello again, pesan ketiga",
-	})
-	if err != nil {
-		log.Fatal("Failed to send via stream", err)
+		log.Printf("Got message to %d content %s", msg.UserId, msg.Content)
 	}
-
-	res, err := stream.CloseAndRecv() //! mengirim info bahwa stream telah selesai dan ditutup
-	if err != nil {
-		log.Fatal("Failed close", err)
-	}
-	log.Println("Connection is closed. Message: ", res.Message)
 
 }
