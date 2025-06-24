@@ -55,21 +55,16 @@ func (cs *chatService) ReceiveMessage(req *chat.ReceiveMessageRequest, stream gr
 
 	log.Printf("Got connection request from %d\n", req.UserId) //?UserId: id user yang mengirim request (dpt dilihat di chat.proto)
 
-	err := stream.Send(&chat.ChatMessage{ //?Send: untuk mengirim data ke client, kemudian mengakses objek stream
-		UserId:  123,
-		Content: "Hi, from server 1", //?message ke 1
-	})
-	if err != nil {
-		return status.Errorf(codes.Unknown, "error sending message to client %v", err)
+	for i := 0; i < 10; i++ {
+		err := stream.Send(&chat.ChatMessage{ //?Send: untuk mengirim data ke client, kemudian mengakses objek stream
+			UserId:  123,
+			Content: "Hi, from server akan mengrim sebanyak 10 kali pesan", //?message ke 1
+		})
+		if err != nil {
+			return status.Errorf(codes.Unknown, "error sending message to client %v", err)
+		}
 	}
 
-	err = stream.Send(&chat.ChatMessage{
-		UserId:  123,
-		Content: "Hi, from server 2", //?message ke 2
-	})
-	if err != nil {
-		return status.Errorf(codes.Unknown, "error sending message to client %v", err)
-	}
 	return nil
 }
 
