@@ -4,6 +4,7 @@ import (
 	"context"
 	"grpc-course-protobuf/pb/chat"
 	"log"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -36,6 +37,8 @@ func main() {
 	}
 
 	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
+
+	time.Sleep(5 * time.Second)
 
 	err = stream.Send(&chat.ChatMessage{
 		UserId:  123,

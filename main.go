@@ -9,6 +9,7 @@ import (
 	"io"
 	"log"
 	"net"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -80,6 +81,8 @@ func (cs *chatService) Chat(stream grpc.BidiStreamingServer[chat.ChatMessage, ch
 		}
 
 		log.Printf("Got message from %d content: %s", msg.UserId, msg.Content)
+
+		time.Sleep(2 * time.Second)
 
 		err = stream.Send(&chat.ChatMessage{
 			UserId:  50,
