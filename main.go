@@ -91,6 +91,14 @@ func (cs *chatService) Chat(stream grpc.BidiStreamingServer[chat.ChatMessage, ch
 		if err != nil {
 			return status.Error(codes.Unknown, fmt.Sprintf("error sending message: %v", err))
 		}
+
+		err = stream.Send(&chat.ChatMessage{
+			UserId:  50,
+			Content: "Reply from server #2",
+		})
+		if err != nil {
+			return status.Error(codes.Unknown, fmt.Sprintf("error sending message: %v", err))
+		}
 	}
 
 	return nil

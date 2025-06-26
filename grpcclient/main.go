@@ -38,6 +38,13 @@ func main() {
 
 	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
 
+	msg, err = stream.Recv()
+	if err != nil {
+		log.Fatalf("Failed to receive message %v", err)
+	}
+
+	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
+
 	time.Sleep(5 * time.Second)
 
 	err = stream.Send(&chat.ChatMessage{
@@ -55,4 +62,10 @@ func main() {
 
 	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
 
+	msg, err = stream.Recv()
+	if err != nil {
+		log.Fatalf("Failed to receive message %v", err)
+	}
+
+	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
 }
