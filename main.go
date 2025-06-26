@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"grpc-course-protobuf/pb/chat"
 	"grpc-course-protobuf/pb/user"
 	"io"
@@ -68,9 +69,29 @@ func (cs *chatService) ReceiveMessage(req *chat.ReceiveMessageRequest, stream gr
 	return nil
 }
 
-// func (UnimplementedChatServiceServer) Chat(grpc.BidiStreamingServer[ChatMessage, ChatMessage]) error { //?mengambil template di chat.grpc.pb.go
-// 	return status.Errorf(codes.Unimplemented, "method Chat not implemented")
-// }
+func (cs *chatService) Chat(stream grpc.BidiStreamingServer[chat.ChatMessage, chat.ChatMessage]) error { //?mengambil template di chat.grpc.pb.go
+	for {
+		msg, err := stream.Recv() //?object stream jg ada (diambil dari chat.grpc.pb.go)
+		if err != nil {
+			if errors.Is(err, io.EOF) {
+				break
+			}
+			return status.Error(codes.Unknown, fmt.Sprintf("error receiving message: %v", err))
+		}
+
+		log.Printf("Got message from %d content: %s", msg.UserId, msg.Content)
+
+		err = stream.Send(&chat.ChatMessage{
+			UserId:  50,
+			Content: "Reply from server",
+		})
+		if err != nil {
+			return status.Error(codes.Unknown, fmt.Sprintf("error sending message: %v", err))
+		}
+	}
+
+	return nil
+}
 
 func main() {
 	// lis, err := net.Listen(network: "tcp", address: ":8080") //ditutorial seperti ini
@@ -88,7 +109,7 @@ func main() {
 	reflection.Register(serv)
 
 	if err := serv.Serve(lis); err != nil {
-		// log.Fatal(v...: "Error running server ", err)
+		// log.Fatav...: "Error running server ", err)
 		log.Fatal("Error running server ", err)
 	}
 }

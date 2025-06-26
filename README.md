@@ -35,3 +35,18 @@ kemudian jalankan client di terminal baru:
 ```bash
 go run grpcclient/main.go
 ```
+
+# Bidirectional streaming RPC
+```bash
+go run main.go
+```
+kemudian jalankan client di terminal baru:
+```bash
+go run grpcclient/main.go
+```
+
+## Mengaktifkan penjelasan ketika hover (install gopls)
+```bash
+go install golang.org/x/tools/gopls@latest
+```
+
