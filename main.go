@@ -22,6 +22,11 @@ type userService struct {
 }
 
 func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {
+	//!praktik status code error handling
+	if userRequest.Age < 1 { //?membuat validasi age
+		return nil, status.Errorf(codes.InvalidArgument, "Age must be above 0")
+	}
+
 	log.Println("CreateUser is running")
 	return &user.CreateResponse{
 		Message: "Success Create User",

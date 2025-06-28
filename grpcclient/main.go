@@ -2,9 +2,8 @@ package main
 
 import (
 	"context"
-	"grpc-course-protobuf/pb/chat"
+	"grpc-course-protobuf/pb/user"
 	"log"
-	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -16,56 +15,17 @@ func main() {
 		log.Fatal("Failed create client", err)
 	}
 
-	chatClient := chat.NewChatServiceClient(clientConn)
+	userClient := user.NewUserServiceClient(clientConn)
 
-	stream, err := chatClient.Chat(context.Background())
-	if err != nil {
-		log.Fatal("Failed to send message", err)
-	}
-
-	err = stream.Send(&chat.ChatMessage{
-		UserId:  123,
-		Content: "Hello this is client",
+	res, err := userClient.CreateUser(context.Background(), &user.User{
+		Age: -1, //?inputnya negatif, jadi error
 	})
 	if err != nil {
-		log.Fatalf("Failed to send message %v", err)
+		log.Println("Failed to send message", err)//?menganggap responsenya error
+		log.Println(res)//? nilainya nil / gak ada response
+		return
 	}
 
-	msg, err := stream.Recv()
-	if err != nil {
-		log.Fatalf("Failed to receive message %v", err)
-	}
+	log.Println("Response from server ", res.Message) //?response dari server
 
-	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
-
-	msg, err = stream.Recv()
-	if err != nil {
-		log.Fatalf("Failed to receive message %v", err)
-	}
-
-	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
-
-	time.Sleep(5 * time.Second)
-
-	err = stream.Send(&chat.ChatMessage{
-		UserId:  123,
-		Content: "Hello this is client again",
-	})
-	if err != nil {
-		log.Fatalf("Failed to send message %v", err)
-	}
-
-	msg, err = stream.Recv()
-	if err != nil {
-		log.Fatalf("Failed to receive message %v", err)
-	}
-
-	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
-
-	msg, err = stream.Recv()
-	if err != nil {
-		log.Fatalf("Failed to receive message %v", err)
-	}
-
-	log.Printf("Got reply from server %d content %s\n", msg.UserId, msg.Content)
 }

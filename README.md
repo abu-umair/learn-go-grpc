@@ -50,3 +50,11 @@ go run grpcclient/main.go
 go install golang.org/x/tools/gopls@latest
 ```
 
+# gRPC Status Code (Praktik)
+```bash
+go run main.go
+```
+kemudian jalankan client di terminal baru:
+```bash
+go run grpcclient/main.go
+
