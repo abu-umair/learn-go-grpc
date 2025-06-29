@@ -27,6 +27,8 @@ func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (
 		return nil, status.Errorf(codes.InvalidArgument, "Age must be above 0")
 	}
 
+	return nil, status.Errorf(codes.Internal, "Server is bugged") //?membuat example error internal
+
 	log.Println("CreateUser is running")
 	return &user.CreateResponse{
 		Message: "Success Create User",
