@@ -31,6 +31,8 @@ func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (
 
 	log.Println("CreateUser is running")
 	return &user.CreateResponse{
+		
+		// StatusCode: 0,
 		Message: "Success Create User",
 	}, nil
 }

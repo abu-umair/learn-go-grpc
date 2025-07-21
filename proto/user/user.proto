@@ -29,5 +29,9 @@ message User {
 }
 
 message CreateResponse {
-  string message = 1;
+  int64 status_code = 1;
+  bool is_success = 2;
+  string response_message = 3;
+  repeated string validation_error = 4;
+  string message = 5;
 }

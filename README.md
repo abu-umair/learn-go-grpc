@@ -57,4 +57,10 @@ go run main.go
 kemudian jalankan client di terminal baru:
 ```bash
 go run grpcclient/main.go
+```
 
+# gRPC Response Wrapper
+setelah mengisi variable di CreateResponse, jalankan
+```bash
+protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto     
+```
