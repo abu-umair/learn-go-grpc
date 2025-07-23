@@ -64,3 +64,12 @@ setelah mengisi variable di CreateResponse, jalankan
 ```bash
 protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto     
 ```
+menjalankan dari server:
+```bash
+go run main.go
+```
+
+dan menjalankan dari client:
+```bash
+go run grpcclient/main.go
+```
