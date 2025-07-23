@@ -73,3 +73,24 @@ dan menjalankan dari client:
 ```bash
 go run grpcclient/main.go
 ```
+
+## membuat base_response.proto
+```bash
+protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative common/base_response.proto     
+```
+dan generate ulang user
+```bash
+protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto     
+```
+
+kemudian jalankan lagi dari server:
+```bash
+go run main.go
+```
+
+dan juga dari client:
+```bash
+go run grpcclient/main.go
+```
+
+

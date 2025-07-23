@@ -4,6 +4,8 @@ package user;
 
 option go_package = "grpc-course-protobuf/pb/user";
 
+import "common/base_response.proto";
+
 service UserService {
   rpc CreateUser (User) returns (CreateResponse );//Unary
 }
@@ -29,9 +31,5 @@ message User {
 }
 
 message CreateResponse {
-  int64 status_code = 1;
-  bool is_success = 2;
-  string response_message = 3;
-  repeated string validation_error = 4;
-  string message = 5;
+  common.BaseResponse base = 1; 
 }

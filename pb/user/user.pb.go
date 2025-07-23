@@ -9,6 +9,7 @@ package user
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	common "grpc-course-protobuf/pb/common"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -183,14 +184,10 @@ func (x *User) GetSpouseName() string {
 }
 
 type CreateResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	StatusCode      int64                  `protobuf:"varint,1,opt,name=status_code,json=statusCode,proto3" json:"status_code,omitempty"`
-	IsSuccess       bool                   `protobuf:"varint,2,opt,name=is_success,json=isSuccess,proto3" json:"is_success,omitempty"`
-	ResponseMessage string                 `protobuf:"bytes,3,opt,name=response_message,json=responseMessage,proto3" json:"response_message,omitempty"`
-	ValidationError []string               `protobuf:"bytes,4,rep,name=validation_error,json=validationError,proto3" json:"validation_error,omitempty"`
-	Message         string                 `protobuf:"bytes,5,opt,name=message,proto3" json:"message,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Base          *common.BaseResponse   `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateResponse) Reset() {
@@ -223,46 +220,18 @@ func (*CreateResponse) Descriptor() ([]byte, []int) {
 	return file_user_user_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CreateResponse) GetStatusCode() int64 {
+func (x *CreateResponse) GetBase() *common.BaseResponse {
 	if x != nil {
-		return x.StatusCode
-	}
-	return 0
-}
-
-func (x *CreateResponse) GetIsSuccess() bool {
-	if x != nil {
-		return x.IsSuccess
-	}
-	return false
-}
-
-func (x *CreateResponse) GetResponseMessage() string {
-	if x != nil {
-		return x.ResponseMessage
-	}
-	return ""
-}
-
-func (x *CreateResponse) GetValidationError() []string {
-	if x != nil {
-		return x.ValidationError
+		return x.Base
 	}
 	return nil
-}
-
-func (x *CreateResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
 }
 
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
 	"\n" +
-	"\x0fuser/user.proto\x12\x04user\"l\n" +
+	"\x0fuser/user.proto\x12\x04user\x1a\x1acommon/base_response.proto\"l\n" +
 	"\aAddress\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12!\n" +
 	"\ffull_address\x18\x02 \x01(\tR\vfullAddress\x12\x1a\n" +
@@ -278,15 +247,9 @@ const file_user_user_proto_rawDesc = "" +
 	"educations\x18\a \x03(\tR\n" +
 	"educations\x12\x1f\n" +
 	"\vspouse_name\x18\b \x01(\tR\n" +
-	"spouseNameJ\x04\b\x02\x10\x03\"\xc0\x01\n" +
-	"\x0eCreateResponse\x12\x1f\n" +
-	"\vstatus_code\x18\x01 \x01(\x03R\n" +
-	"statusCode\x12\x1d\n" +
-	"\n" +
-	"is_success\x18\x02 \x01(\bR\tisSuccess\x12)\n" +
-	"\x10response_message\x18\x03 \x01(\tR\x0fresponseMessage\x12)\n" +
-	"\x10validation_error\x18\x04 \x03(\tR\x0fvalidationError\x12\x18\n" +
-	"\amessage\x18\x05 \x01(\tR\amessage2=\n" +
+	"spouseNameJ\x04\b\x02\x10\x03\":\n" +
+	"\x0eCreateResponse\x12(\n" +
+	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base2=\n" +
 	"\vUserService\x12.\n" +
 	"\n" +
 	"CreateUser\x12\n" +
@@ -306,19 +269,21 @@ func file_user_user_proto_rawDescGZIP() []byte {
 
 var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_user_user_proto_goTypes = []any{
-	(*Address)(nil),        // 0: user.Address
-	(*User)(nil),           // 1: user.User
-	(*CreateResponse)(nil), // 2: user.CreateResponse
+	(*Address)(nil),             // 0: user.Address
+	(*User)(nil),                // 1: user.User
+	(*CreateResponse)(nil),      // 2: user.CreateResponse
+	(*common.BaseResponse)(nil), // 3: common.BaseResponse
 }
 var file_user_user_proto_depIdxs = []int32{
 	0, // 0: user.User.address:type_name -> user.Address
-	1, // 1: user.UserService.CreateUser:input_type -> user.User
-	2, // 2: user.UserService.CreateUser:output_type -> user.CreateResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	3, // 1: user.CreateResponse.base:type_name -> common.BaseResponse
+	1, // 2: user.UserService.CreateUser:input_type -> user.User
+	2, // 3: user.UserService.CreateUser:output_type -> user.CreateResponse
+	3, // [3:4] is the sub-list for method output_type
+	2, // [2:3] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_user_user_proto_init() }

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"grpc-course-protobuf/pb/chat"
+	"grpc-course-protobuf/pb/common"
 	"grpc-course-protobuf/pb/user"
 	"io"
 	"log"
@@ -24,20 +25,23 @@ type userService struct {
 func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {
 	if userRequest.Age < 1 { //?membuat validasi age
 		return &user.CreateResponse{
-			StatusCode:      400,
-			IsSuccess:       false,
-			ResponseMessage: "Validation Error",
+			Base: &common.BaseResponse{
+				StatusCode: 400,
+				IsSuccess:  false,
+				Message:    "Validation Error",
+			},
 		}, nil
 	}
 
-	return nil, status.Errorf(codes.Internal, "Server is bugged") //?membuat example error internal
+	// return nil, status.Errorf(codes.Internal, "Server is bugged") //?membuat example error internal
 
 	log.Println("CreateUser is running")
 	return &user.CreateResponse{
-		StatusCode:      0,
-		IsSuccess:       true,
-		ResponseMessage: "OK",
-		Message:         "Success Create User",
+		Base: &common.BaseResponse{
+			StatusCode: 0,
+			IsSuccess:  true,
+			Message:    "Success Create User",
+		},
 	}, nil
 }
 

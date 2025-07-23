@@ -40,15 +40,15 @@ func main() {
 		return
 	}
 
-	if !res.IsSuccess { //?handle error
-		if res.StatusCode == 400 {
-			log.Println("There is validation error: ", res.ResponseMessage)
-		} else if res.StatusCode == 500 {
-			log.Println("There is internal error: ", res.ResponseMessage)
+	if !res.Base.IsSuccess { //?handle error
+		if res.Base.StatusCode == 400 {
+			log.Println("There is validation error: ", res.Base.Message)
+		} else if res.Base.StatusCode == 500 {
+			log.Println("There is internal error: ", res.Base.Message)
 		}
 		return //?jika tidak ada error, maka return
 	}
 
-	log.Println("Response from server ", res.Message) //?response dari server
+	log.Println("Response from server ", res.Base.Message) //?response dari server
 
 }
