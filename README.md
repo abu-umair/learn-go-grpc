@@ -93,4 +93,15 @@ dan juga dari client:
 go run grpcclient/main.go
 ```
 
+# Protobuf - Timestamp (Praktik)
+copy package timestamp, dan pindahkan ke direktori seperti file timestamp.proto:
 
+```bash
+https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/timestamp.proto
+
+```
+
+kemudian di file timestamp.proto, pada go_package, copy URL nya dan jalankan
+```bash
+go get google.golang.org/protobuf/types/known/timestamppb
+```
