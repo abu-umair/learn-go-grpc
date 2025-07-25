@@ -105,3 +105,8 @@ kemudian di file timestamp.proto, pada go_package, copy URL nya dan jalankan
 ```bash
 go get google.golang.org/protobuf/types/known/timestamppb
 ```
+
+kemudian generete user dengan menjalankan:
+```bash
+protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto     
+```
