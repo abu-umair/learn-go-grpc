@@ -110,3 +110,7 @@ kemudian generete user dengan menjalankan:
 ```bash
 protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto     
 ```
+ketinggalan, jangan lupa menjalankan run
+```bash
+go run main.go
+```
