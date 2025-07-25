@@ -4,9 +4,11 @@ import (
 	"context"
 	"grpc-course-protobuf/pb/user"
 	"log"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func main() {
@@ -17,9 +19,12 @@ func main() {
 
 	userClient := user.NewUserServiceClient(clientConn)
 
+	now := time.Now()
 	res, err := userClient.CreateUser(context.Background(), &user.User{
 		Age: -1, //?inputnya negatif, jadi error (There is validation error:  Validation Error)
 		// Age: 20, //?inputnya positif, jadi tidak ada error
+		BirthDate: timestamppb.New(now), //?otomatis terjadi konversi dari time ke timestamppb
+
 	})
 	if err != nil {
 		// st, ok := status.FromError(err)

@@ -195,6 +195,7 @@ func (x *User) GetBirthDate() *timestamppb.Timestamp {
 type CreateResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Base          *common.BaseResponse   `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -236,6 +237,13 @@ func (x *CreateResponse) GetBase() *common.BaseResponse {
 	return nil
 }
 
+func (x *CreateResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
@@ -258,9 +266,11 @@ const file_user_user_proto_rawDesc = "" +
 	"\vspouse_name\x18\b \x01(\tR\n" +
 	"spouseName\x129\n" +
 	"\n" +
-	"birth_date\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tbirthDateJ\x04\b\x02\x10\x03\":\n" +
+	"birth_date\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tbirthDateJ\x04\b\x02\x10\x03\"u\n" +
 	"\x0eCreateResponse\x12(\n" +
-	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base2=\n" +
+	"\x04base\x18\x01 \x01(\v2\x14.common.BaseResponseR\x04base\x129\n" +
+	"\n" +
+	"created_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt2=\n" +
 	"\vUserService\x12.\n" +
 	"\n" +
 	"CreateUser\x12\n" +
@@ -290,13 +300,14 @@ var file_user_user_proto_depIdxs = []int32{
 	0, // 0: user.User.address:type_name -> user.Address
 	3, // 1: user.User.birth_date:type_name -> google.protobuf.Timestamp
 	4, // 2: user.CreateResponse.base:type_name -> common.BaseResponse
-	1, // 3: user.UserService.CreateUser:input_type -> user.User
-	2, // 4: user.UserService.CreateUser:output_type -> user.CreateResponse
-	4, // [4:5] is the sub-list for method output_type
-	3, // [3:4] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	3, // 3: user.CreateResponse.created_at:type_name -> google.protobuf.Timestamp
+	1, // 4: user.UserService.CreateUser:input_type -> user.User
+	2, // 5: user.UserService.CreateUser:output_type -> user.CreateResponse
+	5, // [5:6] is the sub-list for method output_type
+	4, // [4:5] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_user_user_proto_init() }
