@@ -114,3 +114,20 @@ ketinggalan, jangan lupa menjalankan run
 ```bash
 go run main.go
 ```
+
+# gRPC Input Validation (Praktik)
+```bash
+https://github.com/bufbuild/protovalidate/blob/main/proto/protovalidate/buf/validate/validate.proto
+
+```
+dokumentasinya
+```bash
+https://github.com/bufbuild/protovalidate/tree/main
+
+```
+atau lengkapnya
+```bash
+https://buf.build/bufbuild/protovalidate/docs/main:buf.validate
+
+```
+
