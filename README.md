@@ -130,4 +130,7 @@ atau lengkapnya
 https://buf.build/bufbuild/protovalidate/docs/main:buf.validate
 
 ```
+generate ulang user
+```bash
+protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto     
 

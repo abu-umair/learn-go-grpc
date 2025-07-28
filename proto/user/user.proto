@@ -6,6 +6,7 @@ option go_package = "grpc-course-protobuf/pb/user";
 
 import "common/base_response.proto";
 import "google/protobuf/timestamp.proto";
+import "buf/validate/validate.proto";
 
 service UserService {
   rpc CreateUser (User) returns (CreateResponse );//Unary
@@ -23,7 +24,7 @@ message User {
   reserved 2; //booking penomoran yang gak kita pake (menghapus full_name)
   int64 id = 1;
   // string full_name = 2;
-  int64 age = 3;
+  int64 age = 3[(buf.validate.field).int64.gte = 0];//ingin validasi nilainya tidak boleh negatif
   double balance = 4;
   bool is_active = 5;
   Address address = 6;
