@@ -137,9 +137,15 @@ protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=sour
 
 menambah library validate 1 lagi:
 ```bash
-go get github.com/bufbuild/protovalidate-go
+# go get github.com/bufbuild/protovalidate-go
 
 ```
+jika gagal tambahkan link ini
+```bash
+go get buf.build/go/protovalidate
+
+```
+
 jalankan main.go 
 ```bash
 go run main.go

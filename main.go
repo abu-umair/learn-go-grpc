@@ -12,7 +12,8 @@ import (
 	"net"
 	"time"
 
-	protovalidate "github.com/bufbuild/protovalidate-go"
+	// protovalidate "buf.build/protovalidate-go"
+	protovalidate "buf.build/go/protovalidate" //menggunakan ini
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
@@ -26,7 +27,7 @@ type userService struct {
 
 func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {
 
-	if err := protovalidate.Validate(userRequest); err != nil {
+	if err := protovalidate.Validate(userRequest); err != nil { //!akan masuk validasi ini ketika error
 		return nil, status.Errorf(codes.InvalidArgument, "validation error %v", err)
 	}
 
