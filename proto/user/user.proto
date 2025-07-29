@@ -25,7 +25,7 @@ message User {
   int64 id = 1;
   // string full_name = 2;
   int64 age = 3[(buf.validate.field).int64.gte = 0];//ingin validasi nilainya tidak boleh negatif
-  double balance = 4;
+  double balance = 4 [(buf.validate.field).double = { gte: 0, lte: 1000000.0 }];
   bool is_active = 5;
   Address address = 6;
   repeated string educations = 7; //['SMA', 'D2', 'D3'], ['S1', 'S2', 'S3']
