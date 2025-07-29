@@ -12,6 +12,7 @@ import (
 	"net"
 	"time"
 
+	protovalidate "github.com/bufbuild/protovalidate-go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
@@ -24,14 +25,9 @@ type userService struct {
 }
 
 func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {
-	if userRequest.Age < 1 { //?membuat validasi age
-		return &user.CreateResponse{
-			Base: &common.BaseResponse{
-				StatusCode: 400,
-				IsSuccess:  false,
-				Message:    "Validation Error",
-			},
-		}, nil
+
+	if err := protovalidate.Validate(userRequest); err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "validation error %v", err)
 	}
 
 	// return nil, status.Errorf(codes.Internal, "Server is bugged") //?membuat example error internal

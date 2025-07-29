@@ -140,4 +140,7 @@ menambah library validate 1 lagi:
 go get github.com/bufbuild/protovalidate-go
 
 ```
-
+jalankan main.go 
+```bash
+go run main.go
+```
