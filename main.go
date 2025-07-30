@@ -28,9 +28,27 @@ type userService struct {
 func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {
 
 	if err := protovalidate.Validate(userRequest); err != nil { //!akan masuk validasi ini ketika error
+		if ve, ok := err.(*protovalidate.ValidationError); ok {
+			var validations []*common.ValidationError = make([]*common.ValidationError, 0)
+			for _, fieldErr := range ve.Violations {
+				log.Printf("Field %s message %s", *fieldErr.Proto.Field.Elements[0].FieldName, *fieldErr.Proto.Message)
+
+				validations = append(validations, &common.ValidationError{
+					Field:   *fieldErr.Proto.Field.Elements[0].FieldName,
+					Message: *fieldErr.Proto.Message,
+				})
+			}
+			return &user.CreateResponse{
+				Base: &common.BaseResponse{
+					ValidationErrors: validations,
+					StatusCode:       400,
+					IsSuccess:        false,
+					Message:          "There is validation error",
+				},
+			}, nil
+		}
 		return nil, status.Errorf(codes.InvalidArgument, "validation error %v", err)
 	}
-
 	// return nil, status.Errorf(codes.Internal, "Server is bugged") //?membuat example error internal
 
 	log.Println("CreateUser is running")
@@ -122,7 +140,7 @@ func (cs *chatService) Chat(stream grpc.BidiStreamingServer[chat.ChatMessage, ch
 
 func main() {
 	// lis, err := net.Listen(network: "tcp", address: ":8080") //ditutorial seperti ini
-	lis, err := net.Listen("tcp", ":8081") //harus sama dengan port di grpcclient/main.go
+	lis, err := net.Listen("tcp", ":8082") //harus sama dengan port di grpcclient/main.go
 	if err != nil {
 		log.Fatal("There is error in your net listen ", err)
 	}
