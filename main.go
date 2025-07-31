@@ -23,7 +23,11 @@ import (
 
 func loggingMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 	log.Println("Masuk logging Middleware")
-	return handler(ctx, req)
+	log.Println(info.FullMethod)  //?melihat informasi method yang dipanggil dan usernya
+	res, err := handler(ctx, req) //?jalan ke handler
+
+	log.Println("Setelah request")
+	return res, err
 }
 
 type userService struct {
