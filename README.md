@@ -167,3 +167,11 @@ setelah mengubah response wrapper, jalankan lagi
 ```bash
 go run main.go
 ```
+
+# Go gRPC Server Middleware
+- ChainUnaryInterceptor: digunakan utk middleware dengan API bersifat Unary
+- ChainUnaryInterceptor: digunakan utk middleware dengan API bersifat client Streaming, server streaming dan bidirectional
+```bash
+https://github.com/bufbuild/protovalidate/blob/main/proto/protovalidate/buf/validate/validate.proto
+
+```

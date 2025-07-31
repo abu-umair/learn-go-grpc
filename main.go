@@ -21,6 +21,11 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+func loggingMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+	log.Println("Masuk logging Middleware")
+	return handler(ctx, req)
+}
+
 type userService struct {
 	user.UnimplementedUserServiceServer //mengiinitialkan semua API USER (mungkin seperti resource di route laravel)
 }
@@ -145,7 +150,8 @@ func main() {
 		log.Fatal("There is error in your net listen ", err)
 	}
 
-	serv := grpc.NewServer()
+	//! setiap kali request, maka middleware ini akan dijalankan
+	serv := grpc.NewServer(grpc.ChainUnaryInterceptor(loggingMiddleware))
 
 	user.RegisterUserServiceServer(serv, &userService{})
 
