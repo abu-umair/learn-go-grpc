@@ -175,3 +175,7 @@ go run main.go
 https://github.com/bufbuild/protovalidate/blob/main/proto/protovalidate/buf/validate/validate.proto
 
 ```
+
+jalankan ulang main.go 
+```bash
+go run main.go
