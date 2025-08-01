@@ -155,7 +155,11 @@ func main() {
 	}
 
 	//! setiap kali request, maka middleware ini akan dijalankan
-	serv := grpc.NewServer(grpc.ChainUnaryInterceptor(loggingMiddleware))
+	// serv := grpc.NewServer(grpc.ChainUnaryInterceptor(loggingMiddleware))
+	serv := grpc.NewServer(
+		grpc.ChainUnaryInterceptor(
+			loggingMiddleware, loggingMiddleware),
+	)
 
 	user.RegisterUserServiceServer(serv, &userService{})
 
