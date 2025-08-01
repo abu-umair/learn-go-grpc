@@ -30,6 +30,12 @@ func loggingMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo,
 	return res, err
 }
 
+func authMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+	log.Println("Masuk auth Middleware")
+
+	return handler(ctx, req) //?jalan ke handlerhandler(ctx, req) //?jalan ke handler
+}
+
 type userService struct {
 	user.UnimplementedUserServiceServer //mengiinitialkan semua API USER (mungkin seperti resource di route laravel)
 }
@@ -158,7 +164,7 @@ func main() {
 	// serv := grpc.NewServer(grpc.ChainUnaryInterceptor(loggingMiddleware))
 	serv := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
-			loggingMiddleware, loggingMiddleware),
+			loggingMiddleware, authMiddleware),
 	)
 
 	user.RegisterUserServiceServer(serv, &userService{})
