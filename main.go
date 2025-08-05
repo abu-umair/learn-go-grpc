@@ -34,6 +34,12 @@ func loggingMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo,
 
 func authMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 	log.Println("Masuk auth Middleware")
+
+	//? Whitelist Public API
+	if info.FullMethod == "/user.UserService/Login" {
+		return handler(ctx, req)
+	}
+
 	md, ok := metadata.FromIncomingContext(ctx) //?mengambil metadata (seperti token)
 	if !ok {
 		return nil, status.Error(codes.Unknown, "failed parsing metadata")
@@ -57,6 +63,19 @@ func authMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo, ha
 
 type userService struct {
 	user.UnimplementedUserServiceServer //mengiinitialkan semua API USER (mungkin seperti resource di route laravel)
+}
+
+// ? templatenya dicopas dari user_grpc.pb.go, kemudian diganti menjadi 'userService' dan lainnya
+func (userService) Login(ctx context.Context, loginRequest *user.LoginRequest) (*user.LoginResponse, error) {
+	return &user.LoginResponse{
+		Base: &common.BaseResponse{
+			StatusCode: 200,
+			IsSuccess:  true,
+			Message:    "Success",
+		},
+		AccessToken:  "secret",
+		RefreshToken: "refresh token",
+	}, nil
 }
 
 func (us *userService) CreateUser(ctx context.Context, userRequest *user.User) (*user.CreateResponse, error) {

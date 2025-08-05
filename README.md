@@ -201,3 +201,26 @@ kemudian jalankan main.go
 go run main.go
 
 ```
+
+
+
+dan generate ulang user
+```bash
+protoc --go_out=./pb --go-grpc_out=./pb --proto_path=./proto --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative user/user.proto
+
+```
+
+kemudian jalankan main.go 
+```bash
+go run main.go
+
+```
+
+kemudian jalankan main.go 
+```bash
+go run main.go
+
+```
+
+maka berhasil login (mendapat token dan refresh token)
+dan token tersebut bisa kita gunakan untuk API CreateUser
