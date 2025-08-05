@@ -224,3 +224,23 @@ go run main.go
 
 maka berhasil login (mendapat token dan refresh token)
 dan token tersebut bisa kita gunakan untuk API CreateUser
+
+# Go gRPC Web Server
+
+Download grpc web (hanya 1 kali utk setup dilaptop)
+```bash
+https://github.com/improbable-eng/grpc-web/releases
+
+```
+
+jalankan
+```bash
+go run main.go
+
+```
+kemudian 
+
+```bash
+grpcwebproxy --backend_addr=localhost:8082 --server_bind_address=0.0.0.0 --server_http_debug_port=8080 --run_tls_server=false --backend_max_call_recv_msg_size=577659248 --allow_all_origins
+
+```
