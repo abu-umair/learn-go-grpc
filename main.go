@@ -10,12 +10,14 @@ import (
 	"io"
 	"log"
 	"net"
+	"strings"
 	"time"
 
 	// protovalidate "buf.build/protovalidate-go"
 	protovalidate "buf.build/go/protovalidate" //menggunakan ini
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -32,7 +34,24 @@ func loggingMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo,
 
 func authMiddleware(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
 	log.Println("Masuk auth Middleware")
+	md, ok := metadata.FromIncomingContext(ctx) //?mengambil metadata (seperti token)
+	if !ok {
+		return nil, status.Error(codes.Unknown, "failed parsing metadata")
+	}
 
+	authToken, ok := md["authorization"]
+	if !ok {
+		return nil, status.Error(codes.Unauthenticated, "token doesn't exist")
+	}
+
+	// log.Println(authToken[0])
+
+	splitToken := strings.Split(authToken[0], " ") //?split tokennya
+	token := splitToken[1]                         //?ambil tokennya
+
+	if token != "secret" { //?jika tokennya bukan secret, (bisa diganti sesuai kebutuhan seperti jwt / session token)
+		return nil, status.Error(codes.Unauthenticated, "token is not valid")
+	}
 	return handler(ctx, req) //?jalan ke handlerhandler(ctx, req) //?jalan ke handler
 }
 

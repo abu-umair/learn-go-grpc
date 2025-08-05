@@ -179,3 +179,25 @@ https://github.com/bufbuild/protovalidate/blob/main/proto/protovalidate/buf/vali
 jalankan ulang main.go 
 ```bash
 go run main.go
+```
+
+
+# Middleware Autentikasi
+
+disetting Authorization dengan Auth typenya : No Auth.
+kemudian jalankan main.go 
+```bash
+go run main.go
+
+```
+maka terdapat error : 'token doesn't exist' dan '16 UNAUTHENTICATED'
+
+tetapi jika kita ubah menjadi Bearer Token dengan Tokennya: 'Screet'
+maka berhasil 
+
+jika diisi screet maka berhasil, selainnya tidak
+kemudian jalankan main.go 
+```bash
+go run main.go
+
+```
